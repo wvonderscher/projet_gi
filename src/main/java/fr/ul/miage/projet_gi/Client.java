@@ -51,6 +51,27 @@ public class Client {
         }
         return null;
     }
+
+    public static Client connexion(String email, String password){
+        Connection con = Connexion.getConnexion();
+        try{
+            Statement select = con.createStatement();
+            ResultSet rs = select.executeQuery("SELECT *, COUNT(*) as recordCount FROM client WHERE email = \""+email+"\" AND nom = \""+password+"\"");
+            rs.next();
+            int count = rs.getInt("recordCount");
+            if(count == 1){
+                System.out.println("Connected!");
+                return new Client(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(3),rs.getString(4),rs.getString(5));
+            }else{
+                System.out.println("Mauvais identifiant!");
+                return null;
+            }
+        }catch(Exception e){
+            System.out.println("Problème! " + e);
+            return null;
+        }
+    }
+
     public Client(String nom, String prenom, String adresse, String telephone, String email) {
         super();
         this.nom = nom;

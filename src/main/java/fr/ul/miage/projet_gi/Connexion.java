@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class Connexion {
     public static Connection getConnexion() {
-        String url = "jdbc:mysql://localhost:3306/projetGL?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+        String url = "jdbc:mysql://localhost:3306/projet_gl?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
         String username = "root";
         String password = "";
         try {
