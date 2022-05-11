@@ -1,4 +1,4 @@
-package fr.ul.miage.projet_gi;
+/*package fr.ul.miage.projet_gi;
 
 import org.junit.Test;
 import org.junit.jupiter.api.DisplayName;
@@ -21,4 +21,4 @@ public class ClientTest {
         Client c = new Client(1, "Chelh", "Sofiane", "116 avenue de Nancy", "0649071969", "chelh.sofiane@gmail.com");
         assertThat(c.getEmail()).isEqualTo("chelh.sofiane@gmail.com");
     }
-}
+}*/

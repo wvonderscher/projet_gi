@@ -2,7 +2,9 @@ package fr.ul.miage.projet_gi;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.Scanner;
 
 public class Client {
     private int id;
@@ -13,38 +15,53 @@ public class Client {
     private String email;
     private String numeroCarte;
 
-    public static Client inscription(int id,String nom, String prenom, String adresse, String telephone, String email, String numeroCarte) {
+    public static Client inscription() {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Veuillez saisir votre nom : ");
+        String nom = sc.nextLine();
+        System.out.println("Veuillez saisir votre prénom : ");
+        String prenom = sc.nextLine();
+        System.out.println("Veuillez saisir votre adresse : ");
+        String adresse = sc.nextLine();
+        System.out.println("Veuillez saisir votre telephone : ");
+        String telephone = sc.nextLine();
+        System.out.println("Veuillez saisir votre email : ");
+        String email = sc.nextLine();
+        System.out.println("Veuillez saisir votre mot de passe : ");
+        String motDePasse = sc.nextLine();
+        System.out.println("Veuillez saisir votre numéro de carte bancaire : ");
+        String numeroCarte = sc.nextLine();
+
         if(nom.length() < 3) {
-            System.out.println("Veuillez saisir un nom supérieur à 3 caractères!");
+            System.err.println("Veuillez saisir un nom supérieur à 3 caractères!");
             return null;
         }
         if(prenom.length() < 3) {
-            System.out.println("Veuillez saisir un prénom supérieur à 3 caractères!");
+            System.err.println("Veuillez saisir un prénom supérieur à 3 caractères!");
             return null;
         }
         if(adresse.length() < 5) {
-            System.out.println("Veuillez saisir un adresse supérieur à 5 caractères!");
+            System.err.println("Veuillez saisir un adresse supérieur à 5 caractères!");
             return null;
         }
         if(!(telephone.length() == 10)) {
-            System.out.println("Veuillez saisir un numéro de téléphone valide! (10 numéros)");
+            System.err.println("Veuillez saisir un numéro de téléphone valide! (10 numéros)");
             return null;
         }
         if(email.length() < 3) {
-            System.out.println("Veuillez saisir un mail valide! (xx@yy.zz)");
+            System.err.println("Veuillez saisir un mail valide! (xx@yy.zz)");
             return null;
         }
-        if(numeroCarte.length() < 8) {
-            System.out.println("Veuillez saisir une carte bancaire valide! (1234-5678-9123-4567");
+        if(numeroCarte.length() != 19){
+            System.err.println("Veuillez saisir un numéro de carte valide!");
             return null;
         }
         Connection con = Connexion.getConnexion();
         try {
             Statement insert = con.createStatement();
-            if(insert.executeUpdate("INSERT INTO client(idClient,nom,prenom,adresse,telephone,email,numeroCarte) VALUES (1 + ',' + nom + ',' + prenom + ',' +adresse+ ',' +telephone+ ',' +email+ ',' +numeroCarte)") == 1) {
-                System.out.println("Inscription validée!");
+            if(insert.executeUpdate("INSERT INTO client(nom,prenom,adresse,telephone,email,motdepasse,numeroCarte) VALUES (\""+nom+"\",\""+prenom+"\",\""+adresse+"\",\""+telephone+"\",\""+email+"\",\""+motDePasse+"\",\""+numeroCarte+"\");") == 1) {
+                System.out.println("Inscription validée! Veuillez vous connecter!");
                 con.close();
-                return new Client(id,nom,prenom,adresse,telephone,email,numeroCarte);
             }else {
                 System.out.println("Problème lors de l'inscription");
             }
@@ -54,20 +71,32 @@ public class Client {
         }
         return null;
     }
-    public static Client connexion(String nom, String prenom) {
+
+    public static Client connexion(){
         Connection con = Connexion.getConnexion();
-        try {
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Veuillez saisir votre email : ");
+        String email = sc.nextLine();
+        System.out.println("Veuillez saisir votre mot de passe");
+        String motDePasse = sc.nextLine();
+        try{
             Statement select = con.createStatement();
-            ResultSet rs = select.executeQuery("SELECT * FROM client WHERE nom = \""+nom+"\" AND prenom = \""+prenom+"\"");
-            while(rs.next()) {
-                System.out.println(rs.getInt(1)+"  "+rs.getString(2)+"  "+rs.getString(3));
+            ResultSet rs = select.executeQuery("SELECT *, COUNT(*) as recordCount FROM client WHERE email = \""+email+"\" AND motdepasse = \""+motDePasse+"\"");
+            rs.next();
+            int count = rs.getInt("recordCount");
+            if(count == 1){
+                System.out.println("Connected!");
+                return new Client(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(3),rs.getString(4),rs.getString(5));
+            }else{
+                System.out.println("Mauvais identifiant!");
+                return null;
             }
-            return null;
-        }catch(Exception e) {
-            System.out.println("Problème lors de la connexion --> " + e);
+        }catch(Exception e){
+            System.out.println("Problème! " + e);
             return null;
         }
     }
+
     public Client(String nom, String prenom, String adresse, String telephone, String email) {
         super();
         this.nom = nom;
@@ -85,13 +114,13 @@ public class Client {
         this.email = email;
     }
     public Client(int id, String nom, String prenom, String adresse, String telephone, String email, String numeroCarte) {
-        this.id = this.id;
-        this.nom = this.nom;
-        this.prenom = this.prenom;
-        this.adresse = this.adresse;
-        this.telephone = this.telephone;
-        this.email = this.email;
-        this.numeroCarte = this.numeroCarte;
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.telephone = telephone;
+        this.email = email;
+        this.numeroCarte = numeroCarte;
     }
     public int getId() {
         return id;
