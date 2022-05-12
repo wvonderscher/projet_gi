@@ -1,18 +1,21 @@
 package fr.ul.miage.projet_gi;
-
-import static org.mockito.Mockito.when;
 import org.junit.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.junit.jupiter.api.DisplayName;
+
+
 import static org.assertj.core.api.Assertions.*;
 
-//TO DO : verification regex inscriptiton
+@DisplayName("Test de client")
 public class ClientTest {
-
-    @Test
-    public void testInscription(){
-        Client client = new Client(1,"Chelh", "Sofiane", "15 rue de Paris", "0649071969", "chelh.sofiane@gmail.com", "1234-1234-1234-1234");
-        assertThat(client.getEmail()).isEqualTo("chelh.sofiane@gmail.com");
+    @Test //TO DO regex,...
+    public void inscription(){
+        Client c = new Client(1, "Chelh", "Sofiane", "116 avenue de Nancy", "0649071969", "chelh.sofiane@gmail.com");
+        assertThat(c.getEmail()).isEqualTo("chelh.sofiane@gmail.com");
     }
+
+    @Test //TO DO regex,...
+    public void connexion(){
+        Client c = new Client(1, "Chelh", "Sofiane", "116 avenue de Nancy", "0649071969", "chelh.sofiane@gmail.com");
+        assertThat(c.getEmail()).isEqualTo("chelh.sofiane@gmail.com");
+      }
 }
