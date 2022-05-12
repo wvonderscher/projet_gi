@@ -11,9 +11,8 @@ public class Main {
 		Client client = null;
 		
 		while(appEnFonction) {
-			System.out.println("-------------------------------");
-			System.out.println("Parc de recharge, que souhaitez-vous faire?");
-			System.out.println("1 - Se connecter\n2 - Inscription\n3 - Quitter");
+			if(client == null) afficheMenuNonConnecte();
+			else afficheMenuConnecte();
 			operation = scannerInt();
 			
 			switch(operation) {
@@ -22,9 +21,14 @@ public class Main {
 				else System.out.println("Vous êtes déjà connecté!");
 				break;
 			case 2:
-				Client.inscription();
+				if(client == null) Client.inscription();
+				else System.out.println("Vous êtes connecté! Vous ne pouvez pas vous ré-inscrire!");
 				break;
 			case 3:
+				client = null;
+				System.out.println("Vous êtes deconnecté!");
+				break;
+			case 4:
 				System.out.println("Au revoir !");
 				appEnFonction = false;
 				break;
@@ -45,5 +49,15 @@ public class Main {
 			res = sc.nextInt();
 		}
 		return res;
+	}
+	public static void afficheMenuConnecte(){
+		System.out.println("-------------------------------");
+		System.out.println("Parc de recharge, que souhaitez-vous faire?");
+		System.out.println("3 - Se déconnecter\n4 - Quitter");
+	}
+	public static void afficheMenuNonConnecte(){
+		System.out.println("-------------------------------");
+		System.out.println("Parc de recharge, que souhaitez-vous faire?");
+		System.out.println("1 - Se connecter\n2 - Inscription\n4 - Quitter");
 	}
 }
