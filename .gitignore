@@ -97,6 +97,8 @@ fabric.properties
 
 .metadata
 bin/
+target/
+bindist/
 tmp/
 *.tmp
 *.bak
