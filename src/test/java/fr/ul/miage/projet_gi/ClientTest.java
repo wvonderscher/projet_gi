@@ -13,7 +13,6 @@ public class ClientTest {
     public void inscription(){
         Client c = new Client(1, "Chelh", "Sofiane", "116 avenue de Nancy", "0649071969", "chelh.sofiane@gmail.com");
         assertThat(c.getEmail()).isEqualTo("chelh.sofiane@gmail.com");
-
     }
 
     @Test //TO DO regex,...

@@ -2,9 +2,10 @@ package fr.ul.miage.projet_gi;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Client {
     private int id;
@@ -14,6 +15,7 @@ public class Client {
     private String telephone;
     private String email;
     private String numeroCarte;
+    private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public static Client inscription() {
         Scanner sc = new Scanner(System.in);
@@ -44,11 +46,15 @@ public class Client {
             System.err.println("Veuillez saisir un adresse supérieur à 5 caractères!");
             return null;
         }
+        if(motDePasse.length() < 6){
+            System.err.println("Veuillez saisir un mot de passe supérieur à 6 caractères!");
+            return null;
+        }
         if(!(telephone.length() == 10)) {
             System.err.println("Veuillez saisir un numéro de téléphone valide! (10 numéros)");
             return null;
         }
-        if(email.length() < 3) {
+        if(!valideEmail(email)) {
             System.err.println("Veuillez saisir un mail valide! (xx@yy.zz)");
             return null;
         }
@@ -166,5 +172,9 @@ public class Client {
     }
     public String toString() {
         return "Nom : " + nom + " Prénom : " +prenom + " Adresse : " + adresse + " Numéro téléphone : " + telephone;
+    }
+    public static boolean valideEmail(String email){
+        Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
+        return matcher.find();
     }
 }
