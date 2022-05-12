@@ -9,5 +9,8 @@
         <module name="projet_gi" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="projet_gi" target="17" />
+    </bytecodeTargetLevel>
   </component>
 </project>
