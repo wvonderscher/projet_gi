@@ -124,9 +124,11 @@ public class Client {
     		if(vehiculeId == -1) {
     			try {
 					Statement insertVehicule = con.createStatement();
-					insertVehicule.executeUpdate("insert into vehicule (marque, immatriculation) values (null, \""+plaque+"\")");
+					insertVehicule.executeUpdate("insert into vehicule (marque, immatriculation) values (\"inconnu\", \""+plaque+"\")");
 					Statement insertLienVehicule = con.createStatement();
-					insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+new Timestamp(System.currentTimeMillis())+","+false+")");
+					java.util.Date date = new java.util.Date();
+					Timestamp timestamp = new Timestamp(date.getTime());
+					insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+timestamp+",0)");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -137,7 +139,9 @@ public class Client {
 					ResultSet rs = select.executeQuery("SELECT * from clientpossedevehicule where idClient = "+this.id+" AND idVehicule ="+vehiculeId+"");
 					if(!rs.isBeforeFirst()) {
 						Statement insertLienVehicule = con.createStatement();
-						insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+new Timestamp(System.currentTimeMillis())+","+false+")");
+						java.util.Date date = new java.util.Date();
+						Timestamp timestamp = new Timestamp(date.getTime());
+						insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+timestamp+",0)");
 					}else {
 						System.out.println("Vous avez déjà ajouté ce véhicule");
 					}

@@ -33,20 +33,20 @@ public class Vehicule {
  
  
  public static int getVehiculeId(String plaque) {
- 	Connection con = Connexion.getConnexion();
      try {
+    	Connection con = Connexion.getConnexion();
      	Statement select = con.createStatement();
 			ResultSet rs = select.executeQuery("SELECT * FROM vehicule where immatriculation = \""+plaque+"\" ");
-			con.close();
 			if(rs.isBeforeFirst()) {
 				rs.next();
-				return rs.getInt(1);
+				int id = rs.getInt(1);
+				con.close();
+				return id;
 			}
 		} catch (SQLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-     
 		return -1;
  }
  
