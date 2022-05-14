@@ -32,6 +32,14 @@ public class Main {
 				System.out.println("Au revoir !");
 				appEnFonction = false;
 				break;
+				
+			case 5:
+				client.ajouterVehicule();
+				break;
+				
+			default:
+				System.out.println("opération inconnue");
+				break;
 			}
 			
 		}
