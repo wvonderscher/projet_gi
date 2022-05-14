@@ -2,7 +2,9 @@ package fr.ul.miage.projet_gi;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -102,6 +104,51 @@ public class Client {
             return null;
         }
     }
+    
+    /**
+     * Ajouter un véhicule pour le client connecté 
+     */
+    public void ajouterVehicule() {
+    	//formulaire d'ajout véhicule OK
+    	//verifier ce qui a été entré OK
+    	//verifier si plaque deja pour le client
+    	//ajout plaque si tout bon / sinon prevenir echec ajout
+    	Connection con = Connexion.getConnexion();
+    	Scanner sc = new Scanner(System.in);
+    	System.out.println("Veuillez écrire la plaque du véhicule(format : AA-000-AA)");
+    	String plaque = sc.nextLine();
+    	if(!Vehicule.validePlaque(plaque)) {
+    		System.out.println("La plaque d'immatriculation entrée n'est pas correct !");
+    	}else {
+    		int vehiculeId = Vehicule.getVehiculeId(plaque);
+    		if(vehiculeId == -1) {
+    			try {
+					Statement insertVehicule = con.createStatement();
+					insertVehicule.executeUpdate("insert into vehicule (marque, immatriculation) values (null, \""+plaque+"\")");
+					Statement insertLienVehicule = con.createStatement();
+					insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+new Timestamp(System.currentTimeMillis())+","+false+")");
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+    		}else {
+    			//verification si le client a deja enrrgistré cette plaque
+    			try {
+					Statement select = con.createStatement();
+					ResultSet rs = select.executeQuery("SELECT * from clientpossedevehicule where idClient = "+this.id+" AND idVehicule ="+vehiculeId+"");
+					if(!rs.isBeforeFirst()) {
+						Statement insertLienVehicule = con.createStatement();
+						insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+new Timestamp(System.currentTimeMillis())+","+false+")");
+					}else {
+						System.out.println("Vous avez déjà ajouté ce véhicule");
+					}
+				} catch (SQLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+    		}
+    	}
+    }
+   
 
     public Client(String nom, String prenom, String adresse, String telephone, String email) {
         super();
@@ -176,5 +223,6 @@ public class Client {
     public static boolean valideEmail(String email){
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
-    }
+    }    
+    
 }
