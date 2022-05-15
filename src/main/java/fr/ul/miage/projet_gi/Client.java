@@ -194,6 +194,61 @@ public class Client {
         }
     }
 
+    public void modificationInformations(boolean modificationEnCours) throws Exception {
+        Scanner sc = new Scanner(System.in);
+        Connection con = Connexion.getConnexion();
+        while (modificationEnCours){
+            messageInformationAModifier();
+            int choix = sc.nextInt();
+            switch (choix){
+                case 1 :
+                    Scanner scannerNom = new Scanner(System.in);
+                    System.out.println("Votre nom actuel : " + this.nom);
+                    System.out.println("Saisissez votre nouveau nom : ");
+                    String nom = scannerNom.nextLine();
+                    Statement updateNom = con.createStatement();
+                    updateNom.executeUpdate("UPDATE Client SET nom = \""+nom+"\" WHERE idClient = "+this.id+"");
+                    System.out.println("Changement effectué!");
+                    break;
+                case 2 :
+                    Scanner scannerPrenom = new Scanner(System.in);
+                    System.out.println("Votre prenom actuel : " + this.prenom);
+                    System.out.println("Saisissez votre nouveau prenom : ");
+                    String prenom = scannerPrenom.nextLine();
+                    Statement updatePrenom = con.createStatement();
+                    updatePrenom.executeUpdate("UPDATE Client SET prenom = \""+prenom+"\" WHERE idClient = "+this.id+"");
+                    System.out.println("Changement effectué!");
+                    break;
+                case 3 :
+                    Scanner scannerAdresse = new Scanner(System.in);
+                    System.out.println("Votre adresse actuel : " + this.adresse);
+                    System.out.println("Saisissez votre nouveau adresse : ");
+                    String adresse = scannerAdresse.nextLine();
+                    Statement updateAdresse = con.createStatement();
+                    updateAdresse.executeUpdate("UPDATE Client SET adresse = \""+adresse+"\" WHERE idClient = "+this.id+"");
+                    System.out.println("Changement effectué!");
+                    break;
+                case 4:
+                    Scanner scannerTelephone = new Scanner(System.in);
+                    System.out.println("Votre telephone actuel : " + this.telephone);
+                    System.out.println("Saisissez votre nouveau telephone : ");
+                    String telephone = scannerTelephone.nextLine();
+                    Statement updateTelephone = con.createStatement();
+                    updateTelephone.executeUpdate("UPDATE Client SET telephone = \""+telephone+"\" WHERE idClient = "+this.id+"");
+                    System.out.println("Changement effectué!");
+                    break;
+                case 5:
+                    modificationEnCours = false;
+                    break;
+            }
+        }
+    }
+
+    private void messageInformationAModifier(){
+        System.out.println("Quelle information voulez vous modifier ? ");
+        System.out.println("1 - Nom\n2 - Prénom\n3 - Adresse\n4 - Téléphone\n5 - Quitter");
+    }
+
     public Client(String nom, String prenom, String adresse, String telephone, String email, boolean admin) {
         super();
         this.nom = nom;

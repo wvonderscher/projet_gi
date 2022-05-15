@@ -23,7 +23,7 @@ CREATE TABLE Vehicule
 
 CREATE TABLE ClientPossedeVehicule
 (
-    idClient INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
+    idClient INT NOT NULL AUTO_INCREMENT,
     idVehicule INT NOT NULL,
     dateAjoutVehicule DATE NOT NULL,
     possedeTemporairement BOOLEAN NOT NULL,
