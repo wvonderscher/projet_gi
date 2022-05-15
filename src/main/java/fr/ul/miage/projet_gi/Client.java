@@ -128,7 +128,8 @@ public class Client {
 					Statement insertLienVehicule = con.createStatement();
 					java.util.Date date = new java.util.Date();
 					Timestamp timestamp = new Timestamp(date.getTime());
-					insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+timestamp+",0)");
+					vehiculeId = Vehicule.getVehiculeId(plaque);
+					insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVehicule, possedeTemporairement) values ("+this.id+","+vehiculeId+",\""+timestamp+"\",FALSE)");
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
@@ -141,7 +142,7 @@ public class Client {
 						Statement insertLienVehicule = con.createStatement();
 						java.util.Date date = new java.util.Date();
 						Timestamp timestamp = new Timestamp(date.getTime());
-						insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVéhicule, possedeTemporairement) values ("+this.id+","+vehiculeId+","+timestamp+",0)");
+						insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVehicule, possedeTemporairement) values ("+this.id+","+vehiculeId+",\""+timestamp+"\",FALSE)");
 					}else {
 						System.out.println("Vous avez déjà ajouté ce véhicule");
 					}

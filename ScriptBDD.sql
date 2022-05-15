@@ -15,31 +15,32 @@ CREATE TABLE Client
 
 CREATE TABLE Vehicule
 (
-    idVehicule INT PRIMARY KEY NOT NULL,
+    idVehicule INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     marque VARCHAR(100) NOT NULL,
     immatriculation VARCHAR(15) NOT NULL
 );
 
 CREATE TABLE ClientPossedeVehicule
 (
-    idClient INT PRIMARY KEY  NOT NULL,
+    idClient INT NOT NULL,
     idVehicule INT NOT NULL,
-    dateAjoutVéhicule DATE NOT NULL,
+    dateAjoutVehicule DATE NOT NULL,
     possedeTemporairement BOOLEAN NOT NULL,
     dureePossede INT,
+    primary key (idClient, idVehicule),
     CONSTRAINT fk_idClientVehicule FOREIGN KEY (idClient) REFERENCES Client(idClient),
     CONSTRAINT fk_idVehiculeClient FOREIGN KEY (idVehicule) REFERENCES Vehicule(idVehicule)
 );
 
 CREATE TABLE Borne
 (
-    idBorne INT PRIMARY KEY NOT NULL,
+    idBorne INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     etat ENUM('disponible','indisponible','occupée','reservée') NOT NULL
 );
 
 CREATE TABLE Reservation
 (
-    idReservation INT PRIMARY KEY NOT NULL,
+    idReservation INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     dateReservation DATE NOT NULL,
     dateDebut TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     dateFin TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
@@ -60,7 +61,7 @@ CREATE TABLE FRAIS
 
 CREATE TABLE Contrat
 (
-    idContrat INT PRIMARY KEY NOT NULL,
+    idContrat INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     dateDebutContrat DATE NOT NULL,
     dateFinContrat DATE NOT NULL,
     idClient INT NOT NULL,

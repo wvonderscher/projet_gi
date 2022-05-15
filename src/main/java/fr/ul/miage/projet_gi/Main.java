@@ -61,7 +61,7 @@ public class Main {
 	public static void afficheMenuConnecte(){
 		System.out.println("-------------------------------");
 		System.out.println("Parc de recharge, que souhaitez-vous faire?");
-		System.out.println("3 - Se déconnecter\n4 - Quitte\n5 - Ajouter véhiculer");
+		System.out.println("3 - Se déconnecter\n4 - Quitte\n5 - Ajouter véhicule");
 	}
 	public static void afficheMenuNonConnecte(){
 		System.out.println("-------------------------------");
