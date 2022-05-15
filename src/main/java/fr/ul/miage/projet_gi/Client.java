@@ -16,7 +16,9 @@ public class Client {
     private String adresse;
     private String telephone;
     private String email;
+    private String motdepasse;
     private String numeroCarte;
+    private boolean admin;
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public static Client inscription() {
@@ -94,7 +96,8 @@ public class Client {
             int count = rs.getInt("recordCount");
             if(count == 1){
                 System.out.println("Connected!");
-                return new Client(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(3),rs.getString(4),rs.getString(5));
+                int id = rs.getInt(1);
+                return new Client(rs.getInt(1),rs.getString(2),rs.getString(3),rs.getString(4),rs.getString(5),rs.getString(6),rs.getString(7), rs.getString(8),rs.getBoolean(9));
             }else{
                 System.out.println("Mauvais identifiant!");
                 return null;
@@ -153,25 +156,63 @@ public class Client {
     		}
     	}
     }
-   
 
-    public Client(String nom, String prenom, String adresse, String telephone, String email) {
+    public void adminGetInfoClient(){
+        if(!this.isAdmin()){
+            System.out.println("Vous devez être admin pour accéder à cette fonctionnalité!");
+        }else{
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Veuillez saisir le nom de l'utilisateur que vous recherchez : ");
+            String nom = sc.nextLine();
+            System.out.println("Veuillez saisir le prénom de l'utilisateur que vous recherchez : ");
+            String prenom = sc.nextLine();
+            Connection con = Connexion.getConnexion();
+            try{
+                System.out.println("Ici");
+                Statement select = con.createStatement();
+                ResultSet rs = select.executeQuery("SELECT *, COUNT(*) as recordCount FROM client WHERE nom = \""+nom+"\" AND prenom = \""+prenom+"\"");
+                rs.next();
+                int count = rs.getInt("recordCount");
+                if(count == 1){
+                    System.out.println("la");
+                    System.out.println("Id du client : " + rs.getString(1));
+                    System.out.println("Nom du client : " + rs.getString(2));
+                    System.out.println("Prénom du client : " + rs.getString(3));
+                    System.out.println("Adresse du client : " + rs.getString(4));
+                    System.out.println("Téléphone du client : " + rs.getString(5));
+                    System.out.println("Email du client : " + rs.getString(6));
+                    System.out.println("Mot de passe du client : " + rs.getString(7));
+                    System.out.println("Numéro de carte du client : " + rs.getString(8));
+                    if(rs.getBoolean(9)) System.out.println("Ce client est administrateur");
+                    else System.out.println("Ce client n'est pas administrateur");
+                }else{
+                    System.out.println("Cette utilisateur n'existe pas!");
+                }
+            }catch(Exception e){
+                System.out.println("Problème ! " + e);
+            }
+        }
+    }
+
+    public Client(String nom, String prenom, String adresse, String telephone, String email, boolean admin) {
         super();
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.telephone = telephone;
         this.email = email;
+        this.admin = admin;
     }
-    public Client(int id, String nom, String prenom, String adresse, String telephone, String email) {
+    public Client(int id, String nom, String prenom, String adresse, String telephone, String email, boolean admin) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
         this.adresse = adresse;
         this.telephone = telephone;
         this.email = email;
+        this.admin = admin;
     }
-    public Client(int id, String nom, String prenom, String adresse, String telephone, String email, String numeroCarte) {
+    public Client(int id, String nom, String prenom, String adresse, String telephone, String email, String numeroCarte, boolean admin) {
         this.id = id;
         this.nom = nom;
         this.prenom = prenom;
@@ -179,6 +220,18 @@ public class Client {
         this.telephone = telephone;
         this.email = email;
         this.numeroCarte = numeroCarte;
+        this.admin = admin;
+    }
+    public Client(int id, String nom, String prenom, String adresse, String telephone, String email, String motdepasse, String numeroCarte, boolean admin) {
+        this.id = id;
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.telephone = telephone;
+        this.email = email;
+        this.motdepasse = motdepasse;
+        this.numeroCarte = numeroCarte;
+        this.admin = admin;
     }
     public int getId() {
         return id;
@@ -216,12 +269,28 @@ public class Client {
     public void setEmail(String email) {
         this.email = email;
     }
+
+    public String getMotdepasse() {
+        return motdepasse;
+    }
+
+    public void setMotdepasse(String motdepasse) {
+        this.motdepasse = motdepasse;
+    }
+
     public String getNumeroCarte() {
         return numeroCarte;
     }
     public void setNumeroCarte(String numeroCarte) {
         this.numeroCarte = numeroCarte;
     }
+    public boolean isAdmin() {
+        return admin;
+    }
+    public void setAdmin(boolean admin) {
+        this.admin = admin;
+    }
+
     public String toString() {
         return "Nom : " + nom + " Prénom : " +prenom + " Adresse : " + adresse + " Numéro téléphone : " + telephone;
     }

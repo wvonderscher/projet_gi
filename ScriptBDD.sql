@@ -10,7 +10,8 @@ CREATE TABLE Client
     telephone VARCHAR(15) NOT NULL,
     email VARCHAR(255) NOT NULL,
     motdepasse VARCHAR(255) NOT NULL,
-    numeroCarte VARCHAR(255) NOT NULL
+    numeroCarte VARCHAR(255) NOT NULL,
+    admin BOOLEAN DEFAULT FALSE
 );
 
 CREATE TABLE Vehicule
@@ -22,7 +23,7 @@ CREATE TABLE Vehicule
 
 CREATE TABLE ClientPossedeVehicule
 (
-    idClient INT NOT NULL,
+    idClient INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     idVehicule INT NOT NULL,
     dateAjoutVehicule DATE NOT NULL,
     possedeTemporairement BOOLEAN NOT NULL,
@@ -69,3 +70,5 @@ CREATE TABLE Contrat
     CONSTRAINT fk_idClientReservation2 FOREIGN KEY (idClient) REFERENCES Client(idClient),
     CONSTRAINT fk_idBorneReservation2 FOREIGN KEY (idBorne) REFERENCES Borne(idBorne)
 );
+
+INSERT INTO client VALUES (1,"Administrateur","Administrateur","Administration","0000000000","admin@admin.fr","admin","0000-0000-0000-0000", TRUE);

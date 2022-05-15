@@ -3,13 +3,12 @@ package fr.ul.miage.projet_gi;
 import java.util.Scanner;
 
 public class Main {
-
+	public static Client client = null;
 	public static void main(String[] args) {
 		boolean appEnFonction = true;
 		int operation;
 
-		Client client = null;
-		
+
 		while(appEnFonction) {
 			if(client == null) afficheMenuNonConnecte();
 			else afficheMenuConnecte();
@@ -32,16 +31,16 @@ public class Main {
 				System.out.println("Au revoir !");
 				appEnFonction = false;
 				break;
-				
 			case 5:
 				client.ajouterVehicule();
 				break;
-				
+			case 901:
+				client.adminGetInfoClient();
+				break;
 			default:
-				System.out.println("opération inconnue");
+				System.out.println("Opération inconnue!");
 				break;
 			}
-			
 		}
 	}
 	
@@ -61,7 +60,11 @@ public class Main {
 	public static void afficheMenuConnecte(){
 		System.out.println("-------------------------------");
 		System.out.println("Parc de recharge, que souhaitez-vous faire?");
-		System.out.println("3 - Se déconnecter\n4 - Quitte\n5 - Ajouter véhicule");
+		if(client.isAdmin()){
+			System.out.println("3 - Se déconnecter\n4 - Quitte\n5 - Ajouter véhicule\n901 - Voir les informations d'un client");
+		}else{
+			System.out.println("3 - Se déconnecter\n4 - Quitte\n5 - Ajouter véhicule");
+		}
 	}
 	public static void afficheMenuNonConnecte(){
 		System.out.println("-------------------------------");
