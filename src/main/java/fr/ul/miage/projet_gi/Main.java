@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
 	public static Client client = null;
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		boolean appEnFonction = true;
 		int operation;
 
@@ -34,6 +34,9 @@ public class Main {
 			case 5:
 				client.ajouterVehicule();
 				break;
+			case 6:
+				client.modificationInformations(true);
+				break;
 			case 901:
 				client.adminGetInfoClient();
 				break;
@@ -61,9 +64,9 @@ public class Main {
 		System.out.println("-------------------------------");
 		System.out.println("Parc de recharge, que souhaitez-vous faire?");
 		if(client.isAdmin()){
-			System.out.println("3 - Se déconnecter\n4 - Quitte\n5 - Ajouter véhicule\n901 - Voir les informations d'un client");
+			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n901 - Voir les informations d'un client");
 		}else{
-			System.out.println("3 - Se déconnecter\n4 - Quitte\n5 - Ajouter véhicule");
+			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n6 - Modifier mes informations");
 		}
 	}
 	public static void afficheMenuNonConnecte(){
