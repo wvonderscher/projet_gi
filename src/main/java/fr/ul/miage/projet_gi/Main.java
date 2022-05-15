@@ -40,6 +40,12 @@ public class Main {
 			case 901:
 				client.adminGetInfoClient();
 				break;
+			case 902:
+				client.adminAfficherTarifs();
+			break;
+			case 903:
+				client.adminModifierTarifs();
+			break;
 			default:
 				System.out.println("Opération inconnue!");
 				break;
@@ -64,7 +70,7 @@ public class Main {
 		System.out.println("-------------------------------");
 		System.out.println("Parc de recharge, que souhaitez-vous faire?");
 		if(client.isAdmin()){
-			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n901 - Voir les informations d'un client");
+			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n901 - Voir les informations d'un client\n902 - Afficher les frais actuels\n903 - Modifier les frais actuels");
 		}else{
 			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n6 - Modifier mes informations");
 		}

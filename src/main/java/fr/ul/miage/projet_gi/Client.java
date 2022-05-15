@@ -245,6 +245,80 @@ public class Client {
         }
     }
 
+    public void adminAfficherTarifs() {
+        if (!this.isAdmin()) {
+            System.out.println("Vous devez être admin pour accéder à cette fonctionnalité!");
+        } else {
+            System.out.println("Les frais actuels sont de : ");
+            Connection con = Connexion.getConnexion();
+            try {
+                Statement select = con.createStatement();
+                ResultSet rs = select.executeQuery("select * from frais LIMIT 1;\n");
+                rs.next();
+                System.out.println("Frais de réservation : " + rs.getString(1) + " €");
+                System.out.println("Frais hors réservation : " + rs.getString(2) + " €");
+                System.out.println("Frais de non présentation : " + rs.getString(3) + " €");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+    }
+
+    public void adminModifierTarifs() {
+        if (!this.isAdmin()) {
+            System.out.println("Vous devez être admin pour accéder à cette fonctionnalité!");
+        } else {
+            System.out.println("------ MODIFICATION DES FRAIS ------");
+            System.out.println("1 - Pour modifier les frais de réservation");
+            System.out.println("2 - Pour modifier les frais hors réservation");
+            System.out.println("3 - Pour modifier les frais de non présentation");
+            Scanner sc = new Scanner(System.in);
+            System.out.println("Veuillez choisir le numéro dont vous souhaitez modifier les frais : ");
+            int nbChoix = sc.nextInt();
+            while (nbChoix < 1 || nbChoix > 3){
+                System.out.println("Veuillez choisir un nombre entre 1 et 3");
+                nbChoix = sc.nextInt();
+            }
+            System.out.println("Quel est le nouveau montant pour le frais ?");
+            float newFrais = sc.nextFloat();
+            while (newFrais <= 0 ) {
+                System.out.println("Veuillez entrer un nombre strictement positif : ");
+                newFrais = sc.nextFloat();
+            }
+            Connection con = Connexion.getConnexion();
+            if (nbChoix == 1) {
+                try {
+                    Statement select = con.createStatement();
+                    int rs = select.executeUpdate("UPDATE frais set fraisReservation ="+ newFrais +";");
+                    System.out.println("------ FRAIS MIS A JOUR ------");
+                    adminAfficherTarifs();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            if (nbChoix == 2) {
+                try {
+                    Statement select = con.createStatement();
+                    int rs = select.executeUpdate("UPDATE frais set fraisHorsReservation ="+ newFrais +";");
+                    System.out.println("------ FRAIS MIS A JOUR ------");
+                    adminAfficherTarifs();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+            if (nbChoix == 3) {
+                try {
+                    Statement select = con.createStatement();
+                    int rs = select.executeUpdate("UPDATE frais set fraisNonPresentation ="+ newFrais +";");
+                    System.out.println("------ FRAIS MIS A JOUR ------");
+                    adminAfficherTarifs();
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        }
+    }
+
     private void messageInformationAModifier(){
         System.out.println("Quelle information voulez vous modifier ? ");
         System.out.println("1 - Nom\n2 - Prénom\n3 - Adresse\n4 - Téléphone\n5 - Quitter");
