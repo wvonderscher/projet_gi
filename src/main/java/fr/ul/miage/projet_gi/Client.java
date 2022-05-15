@@ -120,6 +120,7 @@ public class Client {
     	Scanner sc = new Scanner(System.in);
     	System.out.println("Veuillez écrire la plaque du véhicule(format : AA-000-AA)");
     	String plaque = sc.nextLine();
+    	plaque.toUpperCase();
     	if(!Vehicule.validePlaque(plaque)) {
     		System.out.println("La plaque d'immatriculation entrée n'est pas correct !");
     	}else {

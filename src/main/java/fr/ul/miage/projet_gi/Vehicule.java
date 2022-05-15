@@ -49,8 +49,11 @@ public class Vehicule {
 	}
 
 	public static boolean validePlaque(String plaque) {
-		Matcher matcher = VALID_IMMATRICULATION_REGEX.matcher(plaque);
-		return matcher.find();
+		if(plaque != null) {
+			Matcher matcher = VALID_IMMATRICULATION_REGEX.matcher(plaque);
+			return matcher.find();
+		}
+		return false;
 	}
 
 
