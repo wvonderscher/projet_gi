@@ -42,10 +42,13 @@ public class Main {
 				break;
 			case 902:
 				client.adminAfficherTarifs();
-			break;
+				break;
 			case 903:
 				client.adminModifierTarifs();
-			break;
+				break;
+			case 904:
+				Borne.changeTempsAttente();
+				break;
 			default:
 				System.out.println("Opération inconnue!");
 				break;
@@ -70,7 +73,7 @@ public class Main {
 		System.out.println("-------------------------------");
 		System.out.println("Parc de recharge, que souhaitez-vous faire?");
 		if(client.isAdmin()){
-			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n901 - Voir les informations d'un client\n902 - Afficher les frais actuels\n903 - Modifier les frais actuels");
+			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n901 - Voir les informations d'un client\n902 - Afficher les frais actuels\n903 - Modifier les frais actuels\n904 - Modifier temps attente bornes");
 		}else{
 			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n6 - Modifier mes informations");
 		}
