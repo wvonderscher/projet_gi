@@ -36,8 +36,20 @@ CREATE TABLE ClientPossedeVehicule
 CREATE TABLE Borne
 (
     idBorne INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    etat ENUM('disponible','indisponible','occupée','reservée') NOT NULL
+    etat ENUM('disponible','indisponible','occupée','reservée') NOT NULL,
+    tempsAttente INT
 );
+
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
+INSERT INTO Borne(etat) VALUES ('disponible');
 
 CREATE TABLE Reservation
 (
