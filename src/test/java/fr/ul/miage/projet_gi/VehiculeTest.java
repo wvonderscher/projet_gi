@@ -15,20 +15,7 @@ public class VehiculeTest {
 	@DisplayName("Test methode getVehiculeId lorsque le vehicule existe deja")
 	@Test
 	void plaqueExiste() {
-		String plaque = "ZZ-999-ZZ";
-		Connection con = Connexion.getConnexion();
-		Statement insertVehicule;
-		try {
-			insertVehicule = con.createStatement();
-			insertVehicule.executeUpdate("insert into vehicule (marque, immatriculation) values (\"inconnu\", \""+plaque+"\")");
-			assertThat(Vehicule.getVehiculeId(plaque)).isNotEqualTo(-1);
-			insertVehicule = con.createStatement();
-			insertVehicule.executeUpdate("DELETE FROM Vehicule where immatriculation =\""+plaque+"\"");
-			con.close();
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+
 	}
 	
 	

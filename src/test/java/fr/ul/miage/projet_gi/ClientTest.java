@@ -1,6 +1,6 @@
 package fr.ul.miage.projet_gi;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.DisplayName;
 
 
@@ -20,6 +20,12 @@ public class ClientTest {
         assertThat(c.getEmail()).isEqualTo("chelh.sofiane@gmail.com");
 
     }
-
+    
+    
+    @DisplayName("Test d'ajout d'un vehicule pour un client ")
+    @Test
+    public void ajouterVehiculeSucces(){
+    	//Select idClient, immatriculation from clientpossedevehicule inner join vehicule on clientpossedevehicule.idVehicule = vehicule.idVehicule where idClient = ?
+    }
 }
 

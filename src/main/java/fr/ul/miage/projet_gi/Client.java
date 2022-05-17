@@ -111,15 +111,12 @@ public class Client {
     /**
      * Ajouter un véhicule pour le client connecté 
      */
-    public void ajouterVehicule() {
+    public void ajouterVehicule(String plaque) {
     	//formulaire d'ajout véhicule OK
     	//verifier ce qui a été entré OK
     	//verifier si plaque deja pour le client
     	//ajout plaque si tout bon / sinon prevenir echec ajout
     	Connection con = Connexion.getConnexion();
-    	Scanner sc = new Scanner(System.in);
-    	System.out.println("Veuillez écrire la plaque du véhicule(format : AA-000-AA)");
-    	String plaque = sc.nextLine();
     	plaque.toUpperCase();
     	if(!Vehicule.validePlaque(plaque)) {
     		System.out.println("La plaque d'immatriculation entrée n'est pas correct !");

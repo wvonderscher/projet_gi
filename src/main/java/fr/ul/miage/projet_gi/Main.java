@@ -32,7 +32,10 @@ public class Main {
 				appEnFonction = false;
 				break;
 			case 5:
-				client.ajouterVehicule();
+		    	Scanner sc = new Scanner(System.in);
+		    	System.out.println("Veuillez écrire la plaque du véhicule(format : AA-000-AA)");
+		    	String plaque = sc.nextLine();
+				client.ajouterVehicule(plaque);
 				break;
 			case 6:
 				client.modificationInformations(true);
