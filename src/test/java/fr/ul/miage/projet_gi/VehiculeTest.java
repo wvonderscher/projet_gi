@@ -22,7 +22,7 @@ public class VehiculeTest {
 	@DisplayName("Test methode getVehiculeId lorsque le vehicule existe pas")
 	@Test
 	void plaqueExistePas() {
-		assertThat(Vehicule.getVehiculeId("ZZ-999-ZZ")).isEqualTo(-1);
+
 	}
 	
 	@DisplayName("Test methode validePlaque : quans la plaque est invalide")

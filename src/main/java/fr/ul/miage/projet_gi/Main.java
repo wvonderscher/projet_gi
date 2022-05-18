@@ -36,6 +36,7 @@ public class Main {
 		    	System.out.println("Veuillez écrire la plaque du véhicule(format : AA-000-AA)");
 		    	String plaque = sc.nextLine();
 				client.ajouterVehicule(plaque);
+				sc.close();
 				break;
 			case 6:
 				client.modificationInformations(true);
@@ -70,6 +71,7 @@ public class Main {
 			System.out.println("entier ne peut pas être négatif");
 			res = sc.nextInt();
 		}
+		sc.close();
 		return res;
 	}
 	public static void afficheMenuConnecte(){

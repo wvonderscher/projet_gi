@@ -154,6 +154,7 @@ public class Client {
     		}
     	}
     }
+    
 
     public void adminGetInfoClient(){
         if(!this.isAdmin()){
@@ -315,7 +316,8 @@ public class Client {
             }
         }
     }
-
+    
+    
     private void messageInformationAModifier(){
         System.out.println("Quelle information voulez vous modifier ? ");
         System.out.println("1 - Nom\n2 - Prénom\n3 - Adresse\n4 - Téléphone\n5 - Quitter");
@@ -424,6 +426,6 @@ public class Client {
     public static boolean valideEmail(String email){
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
-    }    
+    }   
     
 }

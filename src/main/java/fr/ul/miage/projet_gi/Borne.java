@@ -5,11 +5,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class Borne {
     private int id;
     private String etat;
     private int tempsAttente;
+    private static final Pattern VALID_DATE_FORMAT = Pattern.compile("[0-9]{2}/[0-9]{2}/[0-9]{4}", Pattern.CASE_INSENSITIVE);
+    
     public static void changeTempsAttente() throws Exception{
         afficheBorne();
         Scanner sc = new Scanner(System.in);
@@ -38,6 +42,32 @@ public class Borne {
             }
         }
         con.close();
+    }
+    
+    public static int getBorneDisponibleId() {
+    	try {
+    		Connection con = Connexion.getConnexion();
+    		Statement select = con.createStatement();
+    		ResultSet rs = select.executeQuery("SELECT idBorne FROM borne where etat = \"disponible\"");
+    			if(rs.isBeforeFirst()) {
+    				rs.next();
+    				int id = rs.getInt(1);
+    				con.close();
+    				return id;
+    			}
+    		} catch (SQLException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+    			return -1;
+    }
+    
+    public static boolean valideDateFormat(String date) {
+		if(date != null) {
+			Matcher matcher = VALID_DATE_FORMAT.matcher(date);
+			return matcher.find();
+		}
+		return false;
     }
     public Borne(int id, String etat, int tempsAttente) {
         this.id = id;
