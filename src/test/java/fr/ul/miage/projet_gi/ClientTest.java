@@ -21,11 +21,5 @@ public class ClientTest {
 
     }
     
-    
-    @DisplayName("Test d'ajout d'un vehicule pour un client ")
-    @Test
-    public void ajouterVehiculeSucces(){
-    	//Select idClient, immatriculation from clientpossedevehicule inner join vehicule on clientpossedevehicule.idVehicule = vehicule.idVehicule where idClient = ?
-    }
 }
 

@@ -34,8 +34,14 @@ public class Main {
 			case 5:
 		    	Scanner sc = new Scanner(System.in);
 		    	System.out.println("Veuillez écrire la plaque du véhicule(format : AA-000-AA)");
-		    	String plaque = sc.nextLine();
-				client.ajouterVehicule(plaque);
+		    	String plaque = sc.nextLine().toUpperCase();
+		    	if(Vehicule.validePlaque(plaque)) {
+		    		int vehiculeId = Vehicule.getVehiculeId(plaque);
+		    		client.ajouterVehicule(plaque, vehiculeId);
+		    	}
+		    	else {
+		    		System.out.println("La plaque n'est pas au bon format");
+		    	}
 				sc.close();
 				break;
 			case 6:

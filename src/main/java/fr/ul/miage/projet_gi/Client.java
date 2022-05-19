@@ -111,39 +111,26 @@ public class Client {
     /**
      * Ajouter un véhicule pour le client connecté 
      */
-    public void ajouterVehicule(String plaque) {
-    	//formulaire d'ajout véhicule OK
-    	//verifier ce qui a été entré OK
-    	//verifier si plaque deja pour le client
-    	//ajout plaque si tout bon / sinon prevenir echec ajout
+    public void ajouterVehicule(String plaque, int vehiculeId) {
     	Connection con = Connexion.getConnexion();
-    	plaque.toUpperCase();
-    	if(!Vehicule.validePlaque(plaque)) {
-    		System.out.println("La plaque d'immatriculation entrée n'est pas correct !");
-    	}else {
-    		int vehiculeId = Vehicule.getVehiculeId(plaque);
     		if(vehiculeId == -1) {
+    			//vehicule n'existe pas
     			try {
 					Statement insertVehicule = con.createStatement();
 					insertVehicule.executeUpdate("insert into vehicule (marque, immatriculation) values (\"inconnu\", \""+plaque+"\")");
-					Statement insertLienVehicule = con.createStatement();
-					java.util.Date date = new java.util.Date();
-					Timestamp timestamp = new Timestamp(date.getTime());
-					vehiculeId = Vehicule.getVehiculeId(plaque);
-					insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVehicule, possedeTemporairement) values ("+this.id+","+vehiculeId+",\""+timestamp+"\",FALSE)");
+					Vehicule.ajoutLienClientVehicule(vehiculeId, this.id);
+					con.close();
 				} catch (SQLException e) {
 					e.printStackTrace();
 				}
     		}else {
-    			//verification si le client a deja enrrgistré cette plaque
+    			//vehicule existe
     			try {
 					Statement select = con.createStatement();
 					ResultSet rs = select.executeQuery("SELECT * from clientpossedevehicule where idClient = "+this.id+" AND idVehicule ="+vehiculeId+"");
 					if(!rs.isBeforeFirst()) {
-						Statement insertLienVehicule = con.createStatement();
-						java.util.Date date = new java.util.Date();
-						Timestamp timestamp = new Timestamp(date.getTime());
-						insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVehicule, possedeTemporairement) values ("+this.id+","+vehiculeId+",\""+timestamp+"\",FALSE)");
+						Vehicule.ajoutLienClientVehicule(vehiculeId, this.id);
+						con.close();
 					}else {
 						System.out.println("Vous avez déjà ajouté ce véhicule");
 					}
@@ -151,8 +138,7 @@ public class Client {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-    		}
-    	}
+    		} 	
     }
     
 

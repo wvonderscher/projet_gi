@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -46,6 +47,22 @@ public class Vehicule {
 		e.printStackTrace();
 	}
 		return -1;
+	}
+	
+	
+	public static void ajoutLienClientVehicule(int vehiculeId, int idClient) {
+		Connection con = new Connexion().getConnexion();
+		try {
+			Statement insertLienVehicule = con.createStatement();
+			java.util.Date date = new java.util.Date();
+			Timestamp timestamp = new Timestamp(date.getTime());
+			insertLienVehicule.executeUpdate("insert into clientpossedevehicule (idClient, idVehicule, dateAjoutVehicule, possedeTemporairement) values ("+idClient+","+vehiculeId+",\""+timestamp+"\",FALSE)");
+			con.close();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 	}
 
 	public static boolean validePlaque(String plaque) {

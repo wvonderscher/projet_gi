@@ -12,19 +12,6 @@ import java.sql.Statement;
 @DisplayName("Test Vehicule")
 public class VehiculeTest {
 
-	@DisplayName("Test methode getVehiculeId lorsque le vehicule existe deja")
-	@Test
-	void plaqueExiste() {
-
-	}
-	
-	
-	@DisplayName("Test methode getVehiculeId lorsque le vehicule existe pas")
-	@Test
-	void plaqueExistePas() {
-
-	}
-	
 	@DisplayName("Test methode validePlaque : quans la plaque est invalide")
 	@Test
 	void plaqueIncorrect() {
