@@ -21,7 +21,8 @@ public class Client {
     private boolean admin;
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
-    public static Client inscription() {
+    public static void inputDonneesInscription(){
+        Client client = new Client();
         Scanner sc = new Scanner(System.in);
         System.out.println("Veuillez saisir votre nom : ");
         String nom = sc.nextLine();
@@ -29,47 +30,64 @@ public class Client {
         String prenom = sc.nextLine();
         System.out.println("Veuillez saisir votre adresse : ");
         String adresse = sc.nextLine();
-        System.out.println("Veuillez saisir votre telephone : ");
+        System.out.println("Veuillez saisir votre numéro de téléphone : ");
         String telephone = sc.nextLine();
-        System.out.println("Veuillez saisir votre email : ");
-        String email = sc.nextLine();
+        System.out.println("Veuillez saisir votre adresse mail : ");
+        String mail = sc.nextLine();
         System.out.println("Veuillez saisir votre mot de passe : ");
-        String motDePasse = sc.nextLine();
+        String motdepasse = sc.nextLine();
         System.out.println("Veuillez saisir votre numéro de carte bancaire : ");
         String numeroCarte = sc.nextLine();
+        client.setNom(nom);
+        client.setPrenom(prenom);
+        client.setAdresse(adresse);
+        client.setTelephone(telephone);
+        client.setEmail(mail);
+        client.setMotdepasse(motdepasse);
+        client.setNumeroCarte(numeroCarte);
+        traitementDonneesInscription(client);
+    }
 
-        if(nom.length() < 3) {
-            System.err.println("Veuillez saisir un nom supérieur à 3 caractères!");
-            return null;
+    public static void traitementDonneesInscription(Client client){
+        boolean valide = true;
+        if(client.nom.length() < 2 ){
+            System.out.println("Veuillez saisir un nom supérieur à 1 caractères !");
+            valide = false;
         }
-        if(prenom.length() < 3) {
-            System.err.println("Veuillez saisir un prénom supérieur à 3 caractères!");
-            return null;
+        if(client.prenom.length() < 2){
+            System.out.println("Veuillez saisir un prénom supérieur à 1 caractères!");
+            valide = false;
         }
-        if(adresse.length() < 5) {
-            System.err.println("Veuillez saisir un adresse supérieur à 5 caractères!");
-            return null;
+        if(client.adresse.length() < 3){
+            System.out.println("Veuillez saisir une adresse supérieur à 2 caractères!");
+            valide = false;
         }
-        if(motDePasse.length() < 6){
-            System.err.println("Veuillez saisir un mot de passe supérieur à 6 caractères!");
-            return null;
+        if(client.telephone.length() != 10){
+            System.out.println("Veuillez saisir un numéro de téléphone valide (10 numéros)");
+            valide = false;
         }
-        if(!(telephone.length() == 10)) {
-            System.err.println("Veuillez saisir un numéro de téléphone valide! (10 numéros)");
-            return null;
+        if(!valideEmail(client.email)) {
+            System.out.println("Veuillez saisir un mail valide pour vous inscrire! Format : xx@yy.zz");
+            valide = false;
         }
-        if(!valideEmail(email)) {
-            System.err.println("Veuillez saisir un mail valide! (xx@yy.zz)");
-            return null;
+        if(client.motdepasse.length() < 6){
+            System.out.println("Veuillez saisir un mot de passe supérieur à 5 caractères!");
+            valide = false;
         }
-        if(numeroCarte.length() != 19){
-            System.err.println("Veuillez saisir un numéro de carte valide!");
-            return null;
+        if(client.numeroCarte.length() != 19){
+            System.out.println("Veuillez saisir un numéro de carte valide!");
+            valide = false;
         }
+        if(valide){
+            outputDonneesInscription(client);
+        }
+    }
+
+    public static void outputDonneesInscription(Client client){
         Connection con = Connexion.getConnexion();
         try {
             Statement insert = con.createStatement();
-            if(insert.executeUpdate("INSERT INTO client(nom,prenom,adresse,telephone,email,motdepasse,numeroCarte) VALUES (\""+nom+"\",\""+prenom+"\",\""+adresse+"\",\""+telephone+"\",\""+email+"\",\""+motDePasse+"\",\""+numeroCarte+"\");") == 1) {
+            if(insert.executeUpdate("INSERT INTO client(nom,prenom,adresse,telephone,email,motdepasse,numeroCarte) VALUES (\""+client.nom+"\",\""+client.prenom+"\",\""+client.adresse+"\",\""+client.telephone+"\",\""+client.email+"\",\""+client.motdepasse+"\",\""+client.numeroCarte+"\");") == 1) {
                 System.out.println("Inscription validée! Veuillez vous connecter!");
                 con.close();
             }else {
@@ -77,21 +95,43 @@ public class Client {
             }
         } catch (Exception e) {
             System.out.println("Problème lors de l'inscription --> " + e);
-            return null;
         }
-        return null;
     }
 
-    public static Client connexion(){
-        Connection con = Connexion.getConnexion();
+    public static Client inputDonneesConnexion(){
+        Client client = new Client();
         Scanner sc = new Scanner(System.in);
-        System.out.println("Veuillez saisir votre email : ");
+        System.out.println("Veuillez saisir votre adresse email : ");
         String email = sc.nextLine();
-        System.out.println("Veuillez saisir votre mot de passe");
+        System.out.println("Veuillez saisir votre mot de passe : ");
         String motDePasse = sc.nextLine();
+        client.setEmail(email);
+        client.setMotdepasse(motDePasse);
+        return traitementDonneesConnexion(client);
+    }
+
+    public static Client traitementDonneesConnexion(Client client){
+        boolean valide = true;
+        if(client.motdepasse.equals("")){
+            System.out.println("Veuillez saisir un mot de passe!");
+            valide = false;
+        }
+        if(!valideEmail(client.email)) {
+            System.out.println("Veuillez saisir un mail valide pour vous connecter! Format : xx@yy.zz");
+            valide = false;
+        }
+        if(valide){
+            return outputDonneesConnexion(client);
+        }else{
+            return null;
+        }
+    }
+
+    public static Client outputDonneesConnexion(Client client){
+        Connection con = Connexion.getConnexion();
         try{
             Statement select = con.createStatement();
-            ResultSet rs = select.executeQuery("SELECT *, COUNT(*) as recordCount FROM client WHERE email = \""+email+"\" AND motdepasse = \""+motDePasse+"\"");
+            ResultSet rs = select.executeQuery("SELECT *, COUNT(*) as recordCount FROM client WHERE email = \""+client.email+"\" AND motdepasse = \""+client.motdepasse+"\"");
             rs.next();
             int count = rs.getInt("recordCount");
             if(count == 1){
@@ -107,7 +147,7 @@ public class Client {
             return null;
         }
     }
-    
+
     /**
      * Ajouter un véhicule pour le client connecté 
      */
@@ -140,22 +180,44 @@ public class Client {
 				}
     		} 	
     }
-    
 
-    public void adminGetInfoClient(){
+    public void inputDonneesAdminGetInformationClient(){
+        Client client = new Client();
+        Scanner sc = new Scanner(System.in);
+        System.out.println("Veuillez saisir le nom de l'utilisateur que vous recherchez : ");
+        client.nom = sc.nextLine();
+        System.out.println("Veuillez saisir le prénom de l'utilisateur que vous recherchez : ");
+        client.prenom = sc.nextLine();
+        traitementDonneesAdminGetInformationClient(client);
+    }
+
+    public void traitementDonneesAdminGetInformationClient(Client client){
+        boolean valide = true;
+        if(client.nom.equals("")){
+            System.out.println("Veuillez saisir un nom pour la recherche d'utilisateur!");
+            valide = false;
+        }
+        if(client.prenom.equals("")){
+            System.out.println("Veuillez saisir un prénom pour la recherche d'utilisateur!");
+            valide = false;
+        }
+        if(valide){
+            outputAdminGetInformationClient(client);
+        }
+    }
+
+    /**
+     * Méthode permettant d'afficher les informations d'un client s'il existe
+     * @param client
+     */
+    public void outputAdminGetInformationClient(Client client){
         if(!this.isAdmin()){
             System.out.println("Vous devez être admin pour accéder à cette fonctionnalité!");
         }else{
-            Scanner sc = new Scanner(System.in);
-            System.out.println("Veuillez saisir le nom de l'utilisateur que vous recherchez : ");
-            String nom = sc.nextLine();
-            System.out.println("Veuillez saisir le prénom de l'utilisateur que vous recherchez : ");
-            String prenom = sc.nextLine();
             Connection con = Connexion.getConnexion();
             try{
-                System.out.println("Ici");
                 Statement select = con.createStatement();
-                ResultSet rs = select.executeQuery("SELECT *, COUNT(*) as recordCount FROM client WHERE nom = \""+nom+"\" AND prenom = \""+prenom+"\"");
+                ResultSet rs = select.executeQuery("SELECT *, COUNT(*) as recordCount FROM client WHERE nom = \""+client.nom+"\" AND prenom = \""+client.prenom+"\"");
                 rs.next();
                 int count = rs.getInt("recordCount");
                 if(count == 1){
@@ -171,7 +233,7 @@ public class Client {
                     if(rs.getBoolean(9)) System.out.println("Ce client est administrateur");
                     else System.out.println("Ce client n'est pas administrateur");
                 }else{
-                    System.out.println("Cette utilisateur n'existe pas!");
+                    System.out.println("Ce client n'existe pas!");
                 }
             }catch(Exception e){
                 System.out.println("Problème ! " + e);
@@ -307,6 +369,10 @@ public class Client {
     private void messageInformationAModifier(){
         System.out.println("Quelle information voulez vous modifier ? ");
         System.out.println("1 - Nom\n2 - Prénom\n3 - Adresse\n4 - Téléphone\n5 - Quitter");
+    }
+
+    public Client(){
+
     }
 
     public Client(String nom, String prenom, String adresse, String telephone, String email, boolean admin) {
