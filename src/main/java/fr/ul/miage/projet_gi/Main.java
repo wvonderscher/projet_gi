@@ -1,5 +1,9 @@
 package fr.ul.miage.projet_gi;
 
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Scanner;
 
 public class Main {
@@ -53,7 +57,22 @@ public class Main {
 				System.out.println("Saisissez la duree de reservation : 1h ou 2h ");
 				int dureeReservation = scReservation.nextInt();
 				if(Reservation.valideFormatDateReservation(dateReservation) && Reservation.verifierDateReservation(dateReservation) && (dureeReservation == 1 || dureeReservation ==2)) {
-					//on reserve
+					dateReservation = dateReservation.concat(":00");
+					SimpleDateFormat dateType =new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
+					Date datedeb = dateType.parse(dateReservation);
+					Calendar datefin = Calendar.getInstance();
+					datefin.setTime(datedeb);
+					datefin.add(Calendar.HOUR, dureeReservation);
+		        	Timestamp timestampdd = new Timestamp(datedeb.getTime());
+		        	Timestamp timestampdf= new Timestamp(datefin.getTime().getTime());
+					int idBorne = Borne.getBorneDisponibleId(timestampdd, timestampdf);
+					if(idBorne != -1) {
+						client.reserverBorne(timestampdd, timestampdf, idBorne);
+						System.out.println("réservation effectué à la borne : "+idBorne);
+					}else {
+						System.out.println("Aucune borne n'est disponible");
+					}
+
 				}else {
 					System.out.println("Erreur dans la date ou la durée proposée");
 				}

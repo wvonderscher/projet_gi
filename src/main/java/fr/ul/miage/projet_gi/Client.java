@@ -5,6 +5,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -175,13 +176,34 @@ public class Client {
     		
     } 
     
+    public int nombreReservation() {
+    	int nbres = 0;
+    	Connection con = Connexion.getConnexion();
+    	try {
+			Statement nbReservation = con.createStatement();
+			ResultSet rs = nbReservation.executeQuery("Select count(*) from reservation where etatReservation = 'en attente' AND idClient = "+this.id);
+			nbres = rs.getInt(1);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	return nbres;
+    }
     
-    public void reserverBorne() {
-    	//user entre : date recharge et durée
-    	//verifier que date > today
+    public void reserverBorne(Timestamp dateDeb, Timestamp dateFin, int idBorne) {
     	//verifier que borne disponble/occupé est dispo l'horaire 
     	//inscrire le type
-    	
+    	if(idBorne != 0 && dateDeb != null && dateFin != null) {
+
+        	Connection con = Connexion.getConnexion();
+    		try {
+    			Statement insertReservation = con.createStatement();
+				insertReservation.executeUpdate("insert into Reservation(dateDebut, dateFin, idClient, idBorne, etatReservation) values (\""+dateDeb+"\", \""+dateFin+"\", "+this.id+", "+idBorne+", \"en attente\")");
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+    	}
     }
 
     public void inputDonneesAdminGetInformationClient(){

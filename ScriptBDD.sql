@@ -54,12 +54,11 @@ INSERT INTO Borne(etat) VALUES ('disponible');
 CREATE TABLE Reservation
 (
     idReservation INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
-    dateReservation DATE NOT NULL,
     dateDebut TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     dateFin TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-    duree INT NOT NULL,
     idClient INT NOT NULL,
     idBorne INT NOT NULL,
+    etatReservation ENUM('effectue', 'en attente'),
     CONSTRAINT fk_idClientReservation FOREIGN KEY (idClient) REFERENCES Client(idClient),
     CONSTRAINT fk_idBorneReservation FOREIGN KEY (idBorne) REFERENCES Borne(idBorne)
 );

@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -44,16 +46,25 @@ public class Borne {
         con.close();
     }
     
-    public static int getBorneDisponibleId() {
+    public static int getBorneDisponibleId(Timestamp dateDeb, Timestamp dateFin) {
     	try {
     		Connection con = Connexion.getConnexion();
-    		Statement select = con.createStatement();
-    		ResultSet rs = select.executeQuery("SELECT idBorne FROM borne where etat = \"disponible\"");
+    		Statement select1 = con.createStatement();
+    		ResultSet rs = select1.executeQuery("SELECT DISTINCT borne.idBorne FROM borne WHERE (borne.etat = 'disponible' OR borne.etat = 'occupée') AND borne.idBorne NOT IN (SELECT idBorne FROM reservation)");
     			if(rs.isBeforeFirst()) {
     				rs.next();
     				int id = rs.getInt(1);
     				con.close();
     				return id;
+    			}else {
+    				Statement select2 = con.createStatement();
+    	    		ResultSet rs2 = select2.executeQuery("SELECT borne.idBorne FROM borne where borne.etat = \"disponible\" OR borne.etat = \"occupée\" AND (reservation.dateFin < \""+dateDeb+"\" OR borne.idBorne NOT IN (Select idBorne from reservation) )");
+        			if(rs.isBeforeFirst()) {
+        				rs.next();
+        				int id = rs.getInt(1);
+        				con.close();
+        				return id;
+        			}
     			}
     		} catch (SQLException e) {
     			// TODO Auto-generated catch block
