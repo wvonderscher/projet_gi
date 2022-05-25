@@ -22,7 +22,6 @@ public class Client {
     private static final Pattern VALID_EMAIL_ADDRESS_REGEX = Pattern.compile("^[A-Z0-9._%+-]+@[A-Z0-9.-]+\\.[A-Z]{2,6}$", Pattern.CASE_INSENSITIVE);
 
     public static void inputDonneesInscription(){
-        Client client = new Client();
         Scanner sc = new Scanner(System.in);
         System.out.println("Veuillez saisir votre nom : ");
         String nom = sc.nextLine();
@@ -33,68 +32,61 @@ public class Client {
         System.out.println("Veuillez saisir votre numéro de téléphone : ");
         String telephone = sc.nextLine();
         System.out.println("Veuillez saisir votre adresse mail : ");
-        String mail = sc.nextLine();
+        String email = sc.nextLine();
         System.out.println("Veuillez saisir votre mot de passe : ");
         String motdepasse = sc.nextLine();
         System.out.println("Veuillez saisir votre numéro de carte bancaire : ");
         String numeroCarte = sc.nextLine();
-        client.setNom(nom);
-        client.setPrenom(prenom);
-        client.setAdresse(adresse);
-        client.setTelephone(telephone);
-        client.setEmail(mail);
-        client.setMotdepasse(motdepasse);
-        client.setNumeroCarte(numeroCarte);
-        traitementDonneesInscription(client);
+        traitementDonneesInscription(nom,prenom,adresse,telephone,email,motdepasse,numeroCarte);
     }
 
-    public static void traitementDonneesInscription(Client client){
-        boolean valide = true;
-        if(client.nom.length() < 2 ){
+    public static boolean traitementDonneesInscription(String nom, String prenom, String adresse, String telephone, String email, String motdepasse, String numeroCarte){
+        if(nom.length() < 2 ){
             System.out.println("Veuillez saisir un nom supérieur à 1 caractères !");
-            valide = false;
+            return false;
         }
-        if(client.prenom.length() < 2){
+        if(prenom.length() < 2){
             System.out.println("Veuillez saisir un prénom supérieur à 1 caractères!");
-            valide = false;
+            return false;
         }
-        if(client.adresse.length() < 3){
+        if(adresse.length() < 3){
             System.out.println("Veuillez saisir une adresse supérieur à 2 caractères!");
-            valide = false;
+            return false;
         }
-        if(client.telephone.length() != 10){
+        if(telephone.length() != 10){
             System.out.println("Veuillez saisir un numéro de téléphone valide (10 numéros)");
-            valide = false;
+            return false;
         }
-        if(!valideEmail(client.email)) {
+        if(!valideEmail(email)) {
             System.out.println("Veuillez saisir un mail valide pour vous inscrire! Format : xx@yy.zz");
-            valide = false;
+            return false;
         }
-        if(client.motdepasse.length() < 6){
+        if(motdepasse.length() < 6){
             System.out.println("Veuillez saisir un mot de passe supérieur à 5 caractères!");
-            valide = false;
+            return false;
         }
-        if(client.numeroCarte.length() != 19){
+        if(numeroCarte.length() != 19){
             System.out.println("Veuillez saisir un numéro de carte valide!");
-            valide = false;
+            return false;
         }
-        if(valide){
-            outputDonneesInscription(client);
-        }
+        return outputDonneesInscription(nom,prenom,adresse,telephone,email,motdepasse,numeroCarte);
     }
 
-    public static void outputDonneesInscription(Client client){
+    public static boolean outputDonneesInscription(String nom, String prenom, String adresse, String telephone, String email, String motdepasse, String numeroCarte){
         Connection con = Connexion.getConnexion();
         try {
             Statement insert = con.createStatement();
-            if(insert.executeUpdate("INSERT INTO client(nom,prenom,adresse,telephone,email,motdepasse,numeroCarte) VALUES (\""+client.nom+"\",\""+client.prenom+"\",\""+client.adresse+"\",\""+client.telephone+"\",\""+client.email+"\",\""+client.motdepasse+"\",\""+client.numeroCarte+"\");") == 1) {
+            if(insert.executeUpdate("INSERT INTO client(nom,prenom,adresse,telephone,email,motdepasse,numeroCarte) VALUES (\""+nom+"\",\""+prenom+"\",\""+adresse+"\",\""+telephone+"\",\""+email+"\",\""+motdepasse+"\",\""+numeroCarte+"\");") == 1) {
                 System.out.println("Inscription validée! Veuillez vous connecter!");
                 con.close();
+                return true;
             }else {
                 System.out.println("Problème lors de l'inscription");
+                return false;
             }
         } catch (Exception e) {
             System.out.println("Problème lors de l'inscription --> " + e);
+            return false;
         }
     }
 
@@ -384,6 +376,16 @@ public class Client {
         this.email = email;
         this.admin = admin;
     }
+    public Client(String nom, String prenom, String adresse, String telephone, String email, String numeroCarte, boolean admin) {
+        super();
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.telephone = telephone;
+        this.email = email;
+        this.numeroCarte = numeroCarte;
+        this.admin = admin;
+    }
     public Client(int id, String nom, String prenom, String adresse, String telephone, String email, boolean admin) {
         this.id = id;
         this.nom = nom;
@@ -413,6 +415,16 @@ public class Client {
         this.motdepasse = motdepasse;
         this.numeroCarte = numeroCarte;
         this.admin = admin;
+    }
+    public Client(String nom, String prenom, String adresse, String telephone, String email, String motdepasse, String numeroCarte) {
+        this.nom = nom;
+        this.prenom = prenom;
+        this.adresse = adresse;
+        this.telephone = telephone;
+        this.email = email;
+        this.motdepasse = motdepasse;
+        this.numeroCarte = numeroCarte;
+        this.admin = false;
     }
     public int getId() {
         return id;
