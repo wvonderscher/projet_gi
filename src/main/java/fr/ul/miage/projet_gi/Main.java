@@ -16,11 +16,11 @@ public class Main {
 			
 			switch(operation) {
 			case 1:
-				if(client == null) client = Client.connexion();
+				if(client == null) client = Client.inputDonneesConnexion();
 				else System.out.println("Vous êtes déjà connecté!");
 				break;
 			case 2:
-				if(client == null) Client.inscription();
+				if(client == null) Client.inputDonneesInscription();
 				else System.out.println("Vous êtes connecté! Vous ne pouvez pas vous ré-inscrire!");
 				break;
 			case 3:
@@ -42,7 +42,6 @@ public class Main {
 		    	else {
 		    		System.out.println("La plaque n'est pas au bon format");
 		    	}
-				sc.close();
 				break;
 			case 6:
 				client.modificationInformations(true);
@@ -63,7 +62,7 @@ public class Main {
 				
 				break;
 			case 901:
-				client.adminGetInfoClient();
+				client.inputDonneesAdminGetInformationClient();
 				break;
 			case 902:
 				client.adminAfficherTarifs();
@@ -92,7 +91,6 @@ public class Main {
 			System.out.println("entier ne peut pas être négatif");
 			res = sc.nextInt();
 		}
-		sc.close();
 		return res;
 	}
 	public static void afficheMenuConnecte(){
