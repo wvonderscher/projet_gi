@@ -113,6 +113,7 @@ public class Client {
      */
     public void ajouterVehicule(String plaque, int vehiculeId) {
     	Connection con = Connexion.getConnexion();
+    	String sortie = "";
     		if(vehiculeId == -1) {
     			//vehicule n'existe pas
     			try {
@@ -139,6 +140,16 @@ public class Client {
 					e.printStackTrace();
 				}
     		} 	
+    		
+    } 
+    
+    
+    public void reserverBorne() {
+    	//user entre : date recharge et durée
+    	//verifier que date > today
+    	//verifier que borne disponble/occupé est dispo l'horaire 
+    	//inscrire le type
+    	
     }
     
 

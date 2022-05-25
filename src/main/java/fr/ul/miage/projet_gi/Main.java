@@ -47,6 +47,21 @@ public class Main {
 			case 6:
 				client.modificationInformations(true);
 				break;
+			case 7:
+				Scanner scReservation = new Scanner(System.in);
+				System.out.println("Saisissez la date de début de votre reservation au format : dd/mm/yyyy hh:mm");
+				String dateReservation = scReservation.nextLine();
+				System.out.println("Saisissez la duree de reservation : 1h ou 2h ");
+				int dureeReservation = scReservation.nextInt();
+				if(Reservation.valideFormatDateReservation(dateReservation) && Reservation.verifierDateReservation(dateReservation) && (dureeReservation == 1 || dureeReservation ==2)) {
+					//on reserve
+				}else {
+					System.out.println("Erreur dans la date ou la durée proposée");
+				}
+				
+				
+				
+				break;
 			case 901:
 				client.adminGetInfoClient();
 				break;
@@ -86,7 +101,7 @@ public class Main {
 		if(client.isAdmin()){
 			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n901 - Voir les informations d'un client\n902 - Afficher les frais actuels\n903 - Modifier les frais actuels\n904 - Modifier temps attente bornes");
 		}else{
-			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n6 - Modifier mes informations");
+			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n6 - Modifier mes informations\n7 - Reserver une borne");
 		}
 	}
 	public static void afficheMenuNonConnecte(){

@@ -16,14 +16,11 @@ public class VehiculeTest {
 	@Test
 	void plaqueIncorrect() {
 		assertThat(Vehicule.validePlaque("AA-000-A")).isFalse();
+		assertThat(Vehicule.validePlaque("14-000-AA")).isFalse();
 		assertThat(Vehicule.validePlaque("")).isFalse();
 		assertThat(Vehicule.validePlaque(null)).isFalse();
-		assertThat(Vehicule.validePlaque("-1")).isFalse();
 		assertThat(Vehicule.validePlaque("AA-000-AA ")).isFalse();
-		assertThat(Vehicule.validePlaque(" AA-000-AA")).isFalse();
-		assertThat(Vehicule.validePlaque("14-000-AA")).isFalse();
 	}
-	
 	
 	@DisplayName("Test methode validePlaque : quans la plaque est valide")
 	@Test
