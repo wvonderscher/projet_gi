@@ -58,10 +58,10 @@ public class Borne {
     				return id;
     			}else {
     				Statement select2 = con.createStatement();
-    	    		ResultSet rs2 = select2.executeQuery("SELECT borne.idBorne FROM borne where borne.etat = \"disponible\" OR borne.etat = \"occupée\" AND (reservation.dateFin < \""+dateDeb+"\" OR borne.idBorne NOT IN (Select idBorne from reservation) )");
-        			if(rs.isBeforeFirst()) {
-        				rs.next();
-        				int id = rs.getInt(1);
+    	    		ResultSet rs2 = select2.executeQuery("SELECT DISTINCT borne.idBorne FROM borne inner join reservation on borne.idBorne = reservation.idBorne where (borne.etat = \"disponible\" OR borne.etat = \"occupée\") AND reservation.dateFin < \""+dateDeb+"\"");
+        			if(rs2.isBeforeFirst()) {
+        				rs2.next();
+        				int id = rs2.getInt(1);
         				con.close();
         				return id;
         			}

@@ -194,7 +194,6 @@ public class Client {
     	//verifier que borne disponble/occupé est dispo l'horaire 
     	//inscrire le type
     	if(idBorne != 0 && dateDeb != null && dateFin != null) {
-
         	Connection con = Connexion.getConnexion();
     		try {
     			Statement insertReservation = con.createStatement();
