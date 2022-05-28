@@ -215,6 +215,26 @@ public class Client {
         traitementDonneesAdminGetInformationClient(client);
     }
 
+    public boolean deleteAccount() {
+        Client client = new Client();
+        Connection con = Connexion.getConnexion();
+        if(client.admin == false) {
+            try {
+                Statement deleteAccount = con.createStatement();
+                deleteAccount.executeUpdate("DELETE FROM Client WHERE idClient = " + this.id);
+                client = null;
+                return true;
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        }
+        else{
+            System.out.println("Vous êtes administrateur, vous ne pouvez pas supprimer votre compte");
+            return false;
+        }
+        return false;
+    }
+
     public void traitementDonneesAdminGetInformationClient(Client client){
         boolean valide = true;
         if(client.nom.equals("")){
@@ -522,6 +542,7 @@ public class Client {
     public static boolean valideEmail(String email){
         Matcher matcher = VALID_EMAIL_ADDRESS_REGEX.matcher(email);
         return matcher.find();
-    }   
-    
+    }
+
+
 }

@@ -92,6 +92,16 @@ public class Main {
 			case 904:
 				Borne.changeTempsAttente();
 				break;
+			case 999:
+				if (client.deleteAccount() == true){
+					client.deleteAccount();
+					client = null;
+					System.out.println("Suppression réussie !");
+					System.out.println("Vous n'êtes plus connecté!");
+				}
+				else
+					client.deleteAccount();
+				break;
 			default:
 				System.out.println("Opération inconnue!");
 				break;
@@ -118,7 +128,7 @@ public class Main {
 		if(client.isAdmin()){
 			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n901 - Voir les informations d'un client\n902 - Afficher les frais actuels\n903 - Modifier les frais actuels\n904 - Modifier temps attente bornes");
 		}else{
-			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n6 - Modifier mes informations\n7 - Reserver une borne");
+			System.out.println("3 - Se déconnecter\n4 - Quitter\n5 - Ajouter véhicule\n6 - Modifier mes informations\n7 - Reserver une borne\n999 - Supprimer mes données (irréversible)");
 		}
 	}
 	public static void afficheMenuNonConnecte(){
