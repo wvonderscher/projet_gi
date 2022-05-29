@@ -10,3 +10,6 @@ lien vers le Trello : https://trello.com/invite/b/nwqkBgPw/fe689339b9a1f53fde148
 
 
 (le fichier contenant les burndown charts se trouve dans le repertoire du projet, à la racine)
+
+
+projet réalisé par : Léo Zanzi, Sofiane Chelh, William Vonderscher
